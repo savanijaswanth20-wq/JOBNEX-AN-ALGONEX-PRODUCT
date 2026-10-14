@@ -178,6 +178,50 @@
                 <pre id="raw-json-pre" class="raw-json-block" hidden></pre>
             </div>
         </section>
+
+        <!-- Live MySQL Records Section -->
+        <section class="history-section" id="db-history-section">
+            <div class="history-header">
+                <div class="history-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                    </svg>
+                    <h2>Live MySQL Database Records (<code>jobnex.resume_analyzer</code>)</h2>
+                </div>
+                <button type="button" class="btn-secondary" id="refresh-db-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                    Refresh Records
+                </button>
+            </div>
+
+            <div class="db-hint-box">
+                <span class="hint-icon">💡</span>
+                <span>To view in MySQL Workbench, double-click database <strong>jobnex</strong> and run: <code>SELECT * FROM jobnex.resume_analyzer ORDER BY id DESC;</code></span>
+            </div>
+
+            <div class="table-container">
+                <table class="db-table" id="db-history-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Score</th>
+                            <th>Matched Skills</th>
+                            <th>Missing Skills</th>
+                            <th>Created Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="db-history-tbody">
+                        <tr><td colspan="5" class="table-loading">Loading database records...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </main>
 
     <footer class="app-footer">

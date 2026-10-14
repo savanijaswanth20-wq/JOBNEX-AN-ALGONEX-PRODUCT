@@ -29,6 +29,29 @@ def home():
     }
 
 
+@app.get("/api/history")
+def get_history():
+    connection = None
+    cursor = None
+    try:
+        connection = get_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT id, matched_score, matched_skills, missing_skills, created_at FROM resume_analyzer ORDER BY id DESC LIMIT 15")
+        rows = cursor.fetchall()
+        for r in rows:
+            if isinstance(r.get("created_at"), object) and hasattr(r.get("created_at"), "isoformat"):
+                r["created_at"] = r["created_at"].isoformat()
+        return {"total": len(rows), "records": rows}
+    except Exception as error:
+        raise HTTPException(status_code=500, detail="Failed to fetch records from database") from error
+    finally:
+        if cursor is not None:
+            cursor.close()
+        if connection is not None and connection.is_connected():
+            connection.close()
+
+
+
 @app.post("/api/analyze")
 def analyze(request: AnalyzeRequest):
     connection = None

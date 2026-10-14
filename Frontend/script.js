@@ -290,7 +290,83 @@ We are seeking an experienced Backend Engineer to lead API development and datab
         // Reveal the section and scroll into view smoothly
         resultsSection.hidden = false;
         resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        // Refresh database history table after new record is saved
+        loadDatabaseHistory();
     }
+
+    // 8. Load Live Database Records
+    const dbHistoryTbody = document.getElementById('db-history-tbody');
+    const refreshDbBtn = document.getElementById('refresh-db-btn');
+
+    async function loadDatabaseHistory() {
+        if (!dbHistoryTbody) return;
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/history`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            const records = data.records || [];
+
+            if (records.length === 0) {
+                dbHistoryTbody.innerHTML = '<tr><td colspan="5" class="table-loading">No records found in database jobnex.resume_analyzer.</td></tr>';
+                return;
+            }
+
+            dbHistoryTbody.innerHTML = '';
+            records.forEach(r => {
+                const tr = document.createElement('tr');
+                const score = Number(r.matched_score || 0);
+                let scoreClass = 'score-low';
+                if (score >= 80) scoreClass = 'score-high';
+                else if (score >= 50) scoreClass = 'score-mid';
+
+                let matchedList = [];
+                try {
+                    matchedList = typeof r.matched_skills === 'string' ? JSON.parse(r.matched_skills) : (r.matched_skills || []);
+                } catch (e) {
+                    matchedList = [];
+                }
+
+                let missingList = [];
+                try {
+                    missingList = typeof r.missing_skills === 'string' ? JSON.parse(r.missing_skills) : (r.missing_skills || []);
+                } catch (e) {
+                    missingList = [];
+                }
+
+                const matchedHtml = matchedList.length > 0 
+                    ? matchedList.map(s => `<span class="mini-pill match">✓ ${escapeHtml(s)}</span>`).join('')
+                    : '<span style="color:var(--text-muted);font-size:0.75rem;">None</span>';
+
+                const missingHtml = missingList.length > 0
+                    ? missingList.map(s => `<span class="mini-pill miss">+ ${escapeHtml(s)}</span>`).join('')
+                    : '<span style="color:var(--text-muted);font-size:0.75rem;">None</span>';
+
+                const timeStr = r.created_at ? new Date(r.created_at).toLocaleString() : 'N/A';
+
+                tr.innerHTML = `
+                    <td><span class="id-badge">#${r.id}</span></td>
+                    <td><span class="score-badge ${scoreClass}">${Math.round(score)}%</span></td>
+                    <td>${matchedHtml}</td>
+                    <td>${missingHtml}</td>
+                    <td class="time-cell">${timeStr}</td>
+                `;
+                dbHistoryTbody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error('Failed to load DB history:', err);
+            dbHistoryTbody.innerHTML = `<tr><td colspan="5" class="table-loading" style="color:#f87171;">Could not load database records: ${escapeHtml(err.message)}</td></tr>`;
+        }
+    }
+
+    if (refreshDbBtn) {
+        refreshDbBtn.addEventListener('click', () => {
+            loadDatabaseHistory();
+        });
+    }
+
+    // Load DB history on initial page load
+    loadDatabaseHistory();
 
     function escapeHtml(str) {
         if (!str) return '';

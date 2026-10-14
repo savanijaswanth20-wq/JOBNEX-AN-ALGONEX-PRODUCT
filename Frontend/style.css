@@ -710,6 +710,168 @@ textarea::placeholder {
     max-height: 240px;
 }
 
+/* Live MySQL Records History Section */
+.history-section {
+    margin-top: 3rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 2rem 2.25rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.history-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #ffffff;
+}
+
+.history-title h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.history-title code {
+    font-family: var(--font-mono);
+    color: #818cf8;
+    background: rgba(99, 102, 241, 0.15);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.db-hint-box {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.84rem;
+    color: #cbd5e1;
+    margin-bottom: 1.5rem;
+}
+
+.db-hint-box code {
+    font-family: var(--font-mono);
+    color: #38bdf8;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+}
+
+.table-container {
+    overflow-x: auto;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: rgba(10, 14, 23, 0.5);
+}
+
+.db-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.db-table th {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.85rem 1rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.db-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    color: #e2e8f0;
+}
+
+.db-table tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.table-loading {
+    text-align: center;
+    padding: 2rem !important;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.id-badge {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: #818cf8;
+}
+
+.score-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+}
+
+.score-high {
+    background: var(--success-bg);
+    color: #34d399;
+}
+
+.score-mid {
+    background: var(--warning-bg);
+    color: #fbbf24;
+}
+
+.score-low {
+    background: var(--danger-bg);
+    color: #f87171;
+}
+
+.mini-pill {
+    display: inline-block;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    margin: 2px 3px 2px 0;
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+}
+
+.mini-pill.match {
+    background: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+}
+
+.mini-pill.miss {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fde047;
+}
+
+.time-cell {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-muted);
+}
+
 /* Footer */
 .app-footer {
     text-align: center;
@@ -719,3 +881,4 @@ textarea::placeholder {
     border-top: 1px solid var(--border-subtle);
     background: rgba(10, 14, 23, 0.5);
 }
+
