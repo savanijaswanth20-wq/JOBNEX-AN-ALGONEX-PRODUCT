@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> JobNex </title>
+</head>
+
+<body>
+    <main class="container">
+        <h1> welcome to jobNex </h1>
+        <p> Get ready to see your Resume fit for given Job description</p>
+        <form id="analyze-Form">
+            <label for="Resume"> Give Resume</label>
+            <textarea id="Resume" placeholder="Upload your resume here" required></textarea>
+            <label for="Job description"> Job description</label>
+            <textarea id="Job description" placeholder="Passte your JD here..." required></textarea>
+
+            <button type="Submit" id="analyze-button"> Analyze-Resume </button>
+        </form>
+
+        <p id='status' role='status'></p>
+        <section id="results" hidden>
+            <h2> Analyze Results</h2>
+            <pre id="results"> </pre>
+        </section>
+    </main>
+</body>
+
+</html>
