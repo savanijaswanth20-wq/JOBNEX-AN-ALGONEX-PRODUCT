@@ -1,11 +1,20 @@
 #main.py
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import get_connection
 from analyzer import analyse_resume
 import json 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class AnalyzeRequest(BaseModel):
@@ -50,7 +59,8 @@ def analyze(request: AnalyzeRequest):
 
         return {
             "message": "Analysis request saved successfully",
-            "Analysis_Id": cursor.lastrowid
+            "Analysis_Id": cursor.lastrowid,
+            "result": result
         }
 
     except Exception as error:
