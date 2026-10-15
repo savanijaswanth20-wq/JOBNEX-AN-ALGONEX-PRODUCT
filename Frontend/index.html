@@ -3,230 +3,31 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="JobNex - AI-Powered Resume & Job Description Fit Analyzer by Algonex">
-    <title>JobNex | AI Resume & Job Match Analyzer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <title> JobNex </title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="background-glow glow-1"></div>
-    <div class="background-glow glow-2"></div>
-    <div class="background-glow glow-3"></div>
-
-    <header class="navbar">
-        <div class="nav-container">
-            <div class="brand">
-                <div class="brand-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                </div>
-                <div class="brand-text">
-                    <span class="brand-title">JobNex</span>
-                    <span class="brand-tag">AN ALGONEX PRODUCT</span>
-                </div>
-            </div>
-            <div class="nav-status">
-                <span class="status-indicator" id="api-status-dot"></span>
-                <span class="status-text" id="api-status-text">Connecting...</span>
-            </div>
-        </div>
-    </header>
-
     <main class="container">
-        <section class="hero-section">
-            <div class="hero-badge">
-                <span class="badge-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                </span>
-                <span>FastAPI + MySQL Resume Intelligence</span>
-            </div>
-            <h1>Smart Resume & Job Fit Analyzer</h1>
-            <p>Get ready to see your Resume fit for given Job description. Identify skill matches, uncover gaps, and get instant recommendations.</p>
-            
-            <div class="quick-actions">
-                <button type="button" class="btn-secondary" id="sample-btn">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                    </svg>
-                    Load Sample Data
-                </button>
-                <button type="button" class="btn-ghost" id="clear-btn">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-                    Clear Form
-                </button>
-            </div>
-        </section>
+        <h1> welcome to jobNex </h1>
+        <p> Get ready to see your Resume fit for given Job description</p>
+        <form id="analyze-Form">
+            <label for="resume_text"> Give Resume</label>
+            <textarea id="resume_text" placeholder="Upload your resume here" required></textarea>
+            <label for="jd_text"> Job description</label>
+            <textarea id="jd_text" placeholder="Passte your JD here..." required></textarea>
 
-        <form id="analyze-Form" class="analysis-form">
-            <div class="input-grid">
-                <div class="input-card">
-                    <div class="card-header">
-                        <label for="Resume" class="input-label">
-                            <span class="label-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                            </span>
-                            <span>Resume Text</span>
-                        </label>
-                        <span class="char-count" id="resume-count">0 characters</span>
-                    </div>
-                    <textarea id="Resume" placeholder="Paste your candidate resume or profile text here (e.g. Python developer with Python, SQL, React and Docker experience)..." required></textarea>
-                </div>
-
-                <div class="input-card">
-                    <div class="card-header">
-                        <label for="Job-description" class="input-label">
-                            <span class="label-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-                            </span>
-                            <span>Job Description</span>
-                        </label>
-                        <span class="char-count" id="jd-count">0 characters</span>
-                    </div>
-                    <textarea id="Job-description" name="Job description" placeholder="Paste target job description or requirements here (e.g. Looking for a Backend Engineer with Python, SQL, FastAPI, and Docker skills)..." required></textarea>
-                    <textarea id="Job description" style="display:none;" aria-hidden="true"></textarea>
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" id="analyze-button" class="btn-primary">
-                    <span class="btn-text">Analyze Fit</span>
-                    <span class="btn-spinner" aria-hidden="true"></span>
-                    <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </button>
-            </div>
+            <button type="Submit" id="analyze-button"> Analyze-Resume </button>
         </form>
 
-        <p id="status" role="status" class="status-banner" hidden></p>
+        <p id='status' role='status'></p>
 
-        <section id="results" class="results-dashboard" hidden>
-            <div class="results-header">
-                <h2>Analysis Results</h2>
-                <div class="record-badge" id="record-id-badge">
-                    <span class="dot"></span>
-                    <span>Database ID: <strong id="db-record-id">#--</strong></span>
-                </div>
-            </div>
-
-            <div class="results-grid">
-                <!-- Score Card -->
-                <div class="result-card score-card">
-                    <h3>Overall Match Score</h3>
-                    <div class="score-circle-wrapper">
-                        <div class="score-circle" id="score-circle">
-                            <span class="score-number" id="score-value">0%</span>
-                            <span class="score-label" id="score-rating">Calculated</span>
-                        </div>
-                    </div>
-                    <p class="score-description" id="score-description">Based on key industry skill overlap between resume and job description.</p>
-                </div>
-
-                <!-- Skills Breakdown -->
-                <div class="result-card breakdown-card">
-                    <div class="skills-section">
-                        <h4>
-                            <span class="badge-dot dot-success"></span>
-                            Matched Skills (<span id="matched-count">0</span>)
-                        </h4>
-                        <div class="skill-tags" id="matched-skills-tags">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
-
-                    <div class="skills-section">
-                        <h4>
-                            <span class="badge-dot dot-warning"></span>
-                            Missing Skills (<span id="missing-count">0</span>)
-                        </h4>
-                        <div class="skill-tags" id="missing-skills-tags">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Suggestions Card -->
-            <div class="result-card suggestions-card">
-                <h3>Recommended Action Items</h3>
-                <ul class="suggestions-list" id="suggestions-list">
-                    <!-- Populated dynamically -->
-                </ul>
-            </div>
-
-            <!-- Developer Pre Block -->
-            <div class="debug-wrapper">
-                <button type="button" class="btn-ghost debug-toggle" id="toggle-raw-json">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="16 18 22 12 16 6"></polyline>
-                        <polyline points="8 6 2 12 8 18"></polyline>
-                    </svg>
-                    Toggle Raw JSON Response
-                </button>
-                <pre id="raw-json-pre" class="raw-json-block" hidden></pre>
-            </div>
-        </section>
-
-        <!-- Live MySQL Records Section -->
-        <section class="history-section" id="db-history-section">
-            <div class="history-header">
-                <div class="history-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-                    </svg>
-                    <h2>Live MySQL Database Records (<code>jobnex.resume_analyzer</code>)</h2>
-                </div>
-                <button type="button" class="btn-secondary" id="refresh-db-btn">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="23 4 23 10 17 10"></polyline>
-                        <polyline points="1 20 1 14 7 14"></polyline>
-                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                    </svg>
-                    Refresh Records
-                </button>
-            </div>
-
-            <div class="db-hint-box">
-                <span class="hint-icon">💡</span>
-                <span>To view in MySQL Workbench, double-click database <strong>jobnex</strong> and run: <code>SELECT * FROM jobnex.resume_analyzer ORDER BY id DESC;</code></span>
-            </div>
-
-            <div class="table-container">
-                <table class="db-table" id="db-history-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Score</th>
-                            <th>Matched Skills</th>
-                            <th>Missing Skills</th>
-                            <th>Created Timestamp</th>
-                        </tr>
-                    </thead>
-                    <tbody id="db-history-tbody">
-                        <tr><td colspan="5" class="table-loading">Loading database records...</td></tr>
-                    </tbody>
-                </table>
-            </div>
+        <section id="results" hidden>
+            <h2> Analyze Results</h2>
+            <pre id="result-data"></pre>
         </section>
     </main>
-
-    <footer class="app-footer">
-        <p>&copy; 2026 <strong>JobNex</strong> by Algonex. High-performance career intelligence platform.</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>

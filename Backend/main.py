@@ -2,11 +2,17 @@
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 from database import get_connection
 from analyzer import analyse_resume
 import json 
 app = FastAPI()
+
+from typing import Optional, List
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,8 +24,15 @@ app.add_middleware(
 
 
 class AnalyzeRequest(BaseModel):
-    resume_text: str
-    jd_text: str
+    resume_text: str = Field(min_length=50, description="Resume content (at least 50 characters)")
+    jd_text: str = Field(min_length=50, description="Job description content (at least 50 characters)")
+
+    @field_validator('resume_text', 'jd_text')
+    @classmethod
+    def validate_text(cls, v: str) -> str:
+        if not v or v.strip() == "":
+            raise ValueError("Input cannot be empty or contain only whitespace.")
+        return v
 
 
 @app.get("/")
@@ -53,6 +66,7 @@ def get_history():
 
 
 @app.post("/api/analyze")
+@app.post("/api/analyse")
 def analyze(request: AnalyzeRequest):
     connection = None
     cursor = None
@@ -89,7 +103,7 @@ def analyze(request: AnalyzeRequest):
     except Exception as error:
         if connection is not None and connection.is_connected():
             connection.rollback()
-
+        logger.exception("Error during analysis")     
         raise HTTPException(
             status_code=500,
             detail="Failed to save analysis"
