@@ -116,3 +116,52 @@ def analyze(request: AnalyzeRequest):
         if connection is not None and connection.is_connected():
             connection.close()
 
+
+# Backend API: Retrieve analysis history
+@app.get("/api/analyses")
+def get_analyses():
+    connection = None
+    cursor = None
+
+    try:
+        # Connect to MySQL
+        connection = get_connection()
+
+        # Create a cursor that returns dictionary rows
+        cursor = connection.cursor(dictionary=True)
+
+        # Fetch the latest analyses
+        query = """SELECT
+                id AS Analysis_id,
+                matched_score,
+                matched_skills,
+                missing_skills,
+                created_at AS created_At
+            FROM resume_analyzer
+            ORDER BY id DESC
+            LIMIT 3"""
+
+        cursor.execute(query)
+        analyses = cursor.fetchall()
+
+        for i in analyses:
+            for field in ("matched_skills", "missing_skills"):
+                value = i[field]
+
+                if isinstance(value, str):
+                    i[field] = json.loads(value)
+
+        return {"analyses": analyses}
+
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to retrieve analyses"
+        ) from error
+
+    finally:
+        if cursor is not None:
+            cursor.close()
+
+        if connection is not None and connection.is_connected():
+            connection.close()
