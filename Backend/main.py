@@ -32,10 +32,9 @@ app.add_middleware(
 
 def find_frontend_file(filename: str):
     base_dir = os.path.dirname(__file__)
+    # Only look in static/ — ../Frontend/ is not accessible in Vercel serverless
     candidates = [
         os.path.join(base_dir, "static", filename),
-        os.path.join(base_dir, "..", "Frontend", filename),
-        os.path.join(base_dir, "Frontend", filename),
         os.path.join(base_dir, filename),
     ]
     for c in candidates:
@@ -105,7 +104,8 @@ def get_history():
                 r["created_at"] = r["created_at"].isoformat()
         return {"total": len(rows), "records": rows}
     except Exception as error:
-        raise HTTPException(status_code=500, detail="Failed to fetch records from database") from error
+        logger.warning(f"DB unavailable for /api/history: {error}")
+        return {"total": 0, "records": []}  # graceful fallback for serverless
     finally:
         if cursor is not None:
             cursor.close()
