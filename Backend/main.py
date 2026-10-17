@@ -117,15 +117,15 @@ def get_analyses():
         # Create a cursor that returns dictionary rows
         cursor = connection.cursor(dictionary=True)
 
-        # Fetch the latest 20 analyses
+        # Fetch the latest analyses
         query = """SELECT
-                Analysis_id,
+                id AS Analysis_id,
                 matched_score,
                 matched_skills,
                 missing_skills,
-                created_At
+                created_at AS created_At
             FROM resume_analyzer
-            ORDER BY Analysis_id DESC
+            ORDER BY id DESC
             LIMIT 3"""
 
         cursor.execute(query)
