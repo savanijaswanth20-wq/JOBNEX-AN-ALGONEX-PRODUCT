@@ -1,15 +1,20 @@
 import os
-import mysql.connector 
+import mysql.connector
+
 
 def get_connection():
     host = os.getenv("DB_HOST", "127.0.0.1")
-    port = os.getenv("DB_PORT", "3306")
+    port = int(os.getenv("DB_PORT", "3306"))   # must be int, not str
     user = os.getenv("DB_USER", "root")
     database = os.getenv("DB_NAME", "jobnex")
-    
+
+    # SSL: enabled by default for cloud hosts, disable only when DB_SSL=false
+    use_ssl = os.getenv("DB_SSL", "true").lower() != "false"
+    ssl_args = {"ssl_disabled": not use_ssl} if use_ssl else {"ssl_disabled": True}
+
     password_env = os.getenv("DB_PASSWORD")
     candidate_passwords = [password_env] if password_env else ["Algonex@123", "Algonex@2003"]
-    
+
     last_err = None
     for pwd in candidate_passwords:
         try:
@@ -18,11 +23,13 @@ def get_connection():
                 port=port,
                 user=user,
                 password=pwd,
-                database=database
+                database=database,
+                **ssl_args
             )
         except mysql.connector.Error as err:
             last_err = err
-            if err.errno != 1045:
+            if err.errno != 1045:  # 1045 = wrong password, keep trying
                 raise
     if last_err:
         raise last_err
+
